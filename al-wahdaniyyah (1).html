@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Al-Wahdaniyyah — The Divine Uniqueness</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e9c8;
+    --deep: #0a0f1e;
+    --dark: #0d1428;
+    --mid: #142040;
+    --accent: #1a3060;
+    --text: #e8ddc8;
+    --text-muted: #a89870;
+    --white: #faf7f0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Lora', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── GEOMETRIC BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(26,48,96,0.4) 0%, transparent 60%),
+      repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(201,168,76,0.018) 40px, rgba(201,168,76,0.018) 41px),
+      repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(201,168,76,0.018) 40px, rgba(201,168,76,0.018) 41px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    z-index: 1;
+  }
+
+  /* Geometric star / octagon ornament */
+  .logo-container {
+    width: 240px;
+    height: 240px;
+    margin-bottom: 36px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-container svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Outer ring: slow CW */
+  .ring-outer { animation: spinCW 40s linear infinite; transform-origin: 120px 120px; }
+  /* Middle star: slow CCW */
+  .ring-mid   { animation: spinCCW 28s linear infinite; transform-origin: 120px 120px; }
+  /* Inner rosette: slow CW */
+  .ring-inner { animation: spinCW 18s linear infinite; transform-origin: 120px 120px; }
+  /* Center dot: pulse */
+  .center-dot { animation: pulse 3s ease-in-out infinite; transform-origin: 120px 120px; }
+
+  @keyframes spinCW  { to { transform: rotate(360deg); } }
+  @keyframes spinCCW { to { transform: rotate(-360deg); } }
+  @keyframes pulse   { 0%,100%{ transform: scale(1); opacity:1; } 50%{ transform: scale(1.18); opacity:0.7; } }
+
+  .arabic-basmala {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--gold);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.6s forwards;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.9s forwards;
+  }
+
+  .hero-arabic-sub {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1.2s 1.1s forwards;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 42px;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.35s;
+    opacity: 0;
+    animation: fadeUp 1.2s 1.3s forwards;
+  }
+  .hero-cta:hover {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto 60px;
+    max-width: 400px;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); }
+  .divider-diamond {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 90px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-family: 'Lora', serif;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.25;
+  }
+
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    max-width: 680px;
+    margin-bottom: 60px;
+  }
+
+  /* ── PILLARS GRID ── */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+
+  .pillar-card {
+    background: linear-gradient(135deg, rgba(20,32,64,0.8), rgba(13,20,40,0.9));
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 2px;
+    padding: 36px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    transition: opacity 0.3s;
+  }
+  .pillar-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-4px);
+  }
+
+  .pillar-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.5rem;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .pillar-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .pillar-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+
+  .pillar-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ── TAUHEED SECTION ── */
+  .tauheed-section {
+    background: linear-gradient(135deg, rgba(20,32,64,0.5), rgba(10,15,30,0.7));
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 72px 60px;
+    margin: 0 auto;
+    max-width: 1100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tauheed-section::before,
+  .tauheed-section::after {
+    content: '✦';
+    position: absolute;
+    font-size: 1.2rem;
+    color: rgba(201,168,76,0.3);
+  }
+  .tauheed-section::before { top: 20px; left: 24px; }
+  .tauheed-section::after  { bottom: 20px; right: 24px; }
+
+  .tauheed-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    margin-top: 50px;
+  }
+
+  .tauheed-branch {
+    text-align: center;
+    padding: 32px 20px;
+    border-top: 2px solid rgba(201,168,76,0.3);
+    position: relative;
+  }
+
+  .tauheed-branch::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .branch-icon {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .branch-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .branch-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.9rem;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .branch-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ── AYAH BANNER ── */
+  .ayah-banner {
+    background: linear-gradient(90deg, rgba(201,168,76,0.08), rgba(201,168,76,0.15), rgba(201,168,76,0.08));
+    border-top: 1px solid rgba(201,168,76,0.25);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ayah-arabic {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    color: var(--gold-light);
+    line-height: 2;
+    margin-bottom: 20px;
+    direction: rtl;
+  }
+
+  .ayah-translation {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 680px;
+    margin: 0 auto 10px;
+    line-height: 1.8;
+  }
+
+  .ayah-ref {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── BELIEFS SECTION ── */
+  .beliefs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+  }
+
+  .belief-item {
+    display: flex;
+    gap: 18px;
+    padding: 24px;
+    background: rgba(20,32,64,0.4);
+    border: 1px solid rgba(201,168,76,0.12);
+    transition: border-color 0.3s;
+  }
+  .belief-item:hover { border-color: rgba(201,168,76,0.35); }
+
+  .belief-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .belief-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .belief-text {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(201,168,76,0.18);
+    padding: 48px 40px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .footer-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+  }
+
+  .footer-text {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .tauheed-grid { grid-template-columns: 1fr; }
+    .tauheed-section { padding: 48px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Al-Wahdaniyyah</a>
+  <ul class="nav-links">
+    <li><a href="#basics">Basics of Islam</a></li>
+    <li><a href="#tauheed">Tauheed</a></li>
+    <li><a href="#beliefs">Pillars of Faith</a></li>
+    <li><a href="#recitation">Recitation</a></li>
+    <li><a href="#quran">Quran & Sunnah</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+
+  <!-- Animated Islamic Geometric Logo -->
+  <div class="logo-container">
+  <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- GLOW behind everything -->
+    <circle cx="120" cy="120" r="108" fill="rgba(201,168,76,0.04)"/>
+
+    <!-- LAYER 1: Outermost dashed orbit ring (slow CW) -->
+    <g class="ring-outer">
+      <circle cx="120" cy="120" r="108" fill="none" stroke="#C9A84C" stroke-width="0.7" stroke-dasharray="3 5" opacity="0.3"/>
+      <!-- 16 tiny diamond ticks around the orbit -->
+      <g transform="rotate(0 120 120)">  <rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(22.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(45 120 120)"> <rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(67.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(90 120 120)"> <rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(112.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(135 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(157.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(180 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(202.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(225 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(247.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(270 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(292.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+      <g transform="rotate(315 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.5"/></g>
+      <g transform="rotate(337.5 120 120)"><rect x="118.3" y="10.3" width="3.4" height="3.4" transform="rotate(45 120 12)" fill="#C9A84C" opacity="0.35"/></g>
+    </g>
+
+    <!-- LAYER 2: 12-pointed outer star (slow CCW) -->
+    <g class="ring-mid" opacity="0.75">
+      <!-- 12 elongated diamond points -->
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(30 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(60 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(90 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(120 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(150 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(180 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(210 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(240 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(270 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(300 120 120)"/>
+      <polygon points="120,18 126,100 120,116 114,100" fill="rgba(201,168,76,0.18)" stroke="#C9A84C" stroke-width="0.8" transform="rotate(330 120 120)"/>
+      <!-- Hexagonal frame connecting star tips -->
+      <circle cx="120" cy="120" r="82" fill="none" stroke="#C9A84C" stroke-width="0.6" stroke-dasharray="2 6" opacity="0.4"/>
+    </g>
+
+    <!-- LAYER 3: 8-petalled rosette (inner, slow CW) -->
+    <g class="ring-inner">
+      <!-- 8 leaf/petal shapes -->
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(45 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(90 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(135 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(180 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(225 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(270 120 120)"/>
+      <ellipse cx="120" cy="76" rx="8" ry="22" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="0.9" transform="rotate(315 120 120)"/>
+      <!-- Inner circle border -->
+      <circle cx="120" cy="120" r="44" fill="rgba(10,15,30,0.6)" stroke="#C9A84C" stroke-width="1" opacity="0.8"/>
+    </g>
+
+    <!-- CENTER: static crescent + star motif -->
+    <circle cx="120" cy="120" r="22" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="1.2"/>
+    <!-- Crescent moon shape -->
+    <path d="M120 102 A18 18 0 1 1 104 128 A12 12 0 1 0 120 102 Z" fill="rgba(201,168,76,0.55)" stroke="#C9A84C" stroke-width="0.8"/>
+    <!-- Small 5-point star next to crescent -->
+    <g transform="translate(126,111)">
+      <polygon points="0,-5 1.18,-1.62 4.75,-1.54 1.90,0.62 2.94,4.05 0,2 -2.94,4.05 -1.90,0.62 -4.75,-1.54 -1.18,-1.62"
+               fill="#C9A84C" opacity="0.9"/>
+    </g>
+
+    <!-- Pulsing center dot -->
+    <circle class="center-dot" cx="120" cy="120" r="4.5" fill="#C9A84C" opacity="0.9"/>
+
+  </svg>
+  </div>
+
+  <p class="arabic-basmala">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+  <h1 class="hero-title">Al-<span>Wahdaniyyah</span></h1>
+  <p class="hero-subtitle">The Divine Uniqueness — The Absolute Oneness of Allah</p>
+  <p class="hero-arabic-sub">لَا إِلٰهَ إِلَّا اللَّهُ مُحَمَّدٌ رَسُولُ اللَّهِ</p>
+  <a href="#basics" class="hero-cta">Begin the Journey</a>
+</div>
+
+<!-- AYAH BANNER -->
+<div class="ayah-banner">
+  <p class="ayah-arabic">قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾</p>
+  <p class="ayah-translation">"Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent."</p>
+  <span class="ayah-ref">Surah Al-Ikhlas · 112:1–4</span>
+</div>
+
+<!-- BASICS OF ISLAM -->
+<section id="basics">
+  <div class="reveal">
+    <p class="section-label">Foundation</p>
+    <h2 class="section-title">Basics of Islam</h2>
+    <p class="section-intro">Islam is the complete way of life revealed by Allah (سُبْحَانَهُ وَتَعَالَى) to humanity through the Prophet Muhammad (ﷺ). It rests on clear foundational principles that guide every aspect of a believer's life.</p>
+  </div>
+
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="pillars-grid">
+    <div class="pillar-card reveal">
+      <div class="pillar-number">01</div>
+      <span class="pillar-arabic">الشَّهَادَة</span>
+      <div class="pillar-name">Shahada — Declaration of Faith</div>
+      <p class="pillar-desc">The testimony that there is no god worthy of worship except Allah, and that Muhammad (ﷺ) is His final Messenger. This is the gateway into Islam and the most fundamental act of faith.</p>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-number">02</div>
+      <span class="pillar-arabic">الصَّلاة</span>
+      <div class="pillar-name">Salah — The Five Daily Prayers</div>
+      <p class="pillar-desc">Prayers performed five times daily (Fajr, Dhuhr, Asr, Maghrib, Isha) that establish a direct connection between the servant and his Lord, forming the spiritual backbone of a Muslim's day.</p>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-number">03</div>
+      <span class="pillar-arabic">الزَّكاة</span>
+      <div class="pillar-name">Zakah — Obligatory Charity</div>
+      <p class="pillar-desc">An annual purification of wealth given to those in need. It cleanses the soul from greed and strengthens community bonds by ensuring the welfare of the less fortunate.</p>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-number">04</div>
+      <span class="pillar-arabic">الصَّوْم</span>
+      <div class="pillar-name">Sawm — Fasting in Ramadan</div>
+      <p class="pillar-desc">Complete abstention from food, drink, and wrongdoing from dawn to sunset during the blessed month of Ramadan. It cultivates taqwa (God-consciousness) and deep spiritual discipline.</p>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-number">05</div>
+      <span class="pillar-arabic">الْحَجّ</span>
+      <div class="pillar-name">Hajj — Pilgrimage to Makkah</div>
+      <p class="pillar-desc">The once-in-a-lifetime pilgrimage to the sacred city of Makkah, obligatory for every Muslim who is physically and financially able. It is the greatest gathering of humanity in submission to Allah.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TAUHEED SECTION -->
+<section id="tauheed" style="padding: 0; max-width: 100%;">
+  <div class="tauheed-section">
+    <div class="reveal" style="max-width: 1000px; margin: 0 auto;">
+      <p class="section-label">The Heart of Islamic Belief</p>
+      <h2 class="section-title">Tauheed — The Oneness of Allah</h2>
+      <p class="section-intro">Tauheed (التَّوْحِيد) is the most essential concept in Islam — the absolute, uncompromising belief in the uniqueness and oneness of Allah. It is the reason creation exists, the message of every Prophet, and the foundation upon which all worship is built.</p>
+
+      <blockquote style="border-left: 3px solid var(--gold); padding-left: 24px; margin: 40px 0; font-style: italic; color: var(--text-muted); font-size: 1rem; line-height: 1.9;">
+        "The Prophet (ﷺ) was sent for ten years in Makkah calling people to Tauheed before any other obligation was revealed — a testament to its supreme importance."
+      </blockquote>
+
+      <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 20px;">
+        Scholars of Islam have categorized Tauheed into three interlocking dimensions, each necessary and none sufficient alone. Together, they constitute complete and authentic monotheism:
+      </p>
+    </div>
+
+    <div class="tauheed-grid">
+      <div class="tauheed-branch reveal">
+        <span class="branch-icon">🌌</span>
+        <span class="branch-arabic">تَوْحِيد الرُّبُوبِيَّة</span>
+        <div class="branch-name">Tauheed al-Rububiyyah</div>
+        <p class="branch-desc"><strong style="color:var(--gold-light);">Oneness of Lordship.</strong><br/><br/>Allah alone is the Creator, Sustainer, and Sovereign of all existence. He controls life and death, gives and withholds, and governs every atom in the universe. Nothing happens except by His will. Even the polytheists of Makkah acknowledged this aspect — yet it was not enough for salvation.</p>
+      </div>
+      <div class="tauheed-branch reveal">
+        <span class="branch-icon">🤲</span>
+        <span class="branch-arabic">تَوْحِيد الأُلُوهِيَّة</span>
+        <div class="branch-name">Tauheed al-Uluhiyyah</div>
+        <p class="branch-desc"><strong style="color:var(--gold-light);">Oneness of Worship.</strong><br/><br/>All acts of worship — prayer, supplication, sacrifice, vows, hope, fear, and love — must be directed exclusively to Allah. This is the meaning of لَا إِلٰهَ إِلَّا اللَّهُ. Directing any act of worship to other than Allah is Shirk, the gravest sin in Islam.</p>
+      </div>
+      <div class="tauheed-branch reveal">
+        <span class="branch-icon">📖</span>
+        <span class="branch-arabic">تَوْحِيد الأَسْمَاء وَالصِّفَات</span>
+        <div class="branch-name">Tauheed al-Asma' was-Sifat</div>
+        <p class="branch-desc"><strong style="color:var(--gold-light);">Oneness of Names & Attributes.</strong><br/><br/>Affirming all the beautiful names and attributes Allah has affirmed for Himself in the Quran and Sunnah, without distortion, denial, comparison to creation, or asking "how." Allah's attributes are perfect and unlike anything in creation.</p>
+      </div>
+    </div>
+
+    <!-- Extra Tauheed content -->
+    <div class="reveal" style="max-width: 1000px; margin: 60px auto 0; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.2);">
+      <h3 style="font-family:'Cinzel Decorative',serif; font-size:1.2rem; color:var(--white); margin-bottom:20px;">Why Tauheed is the Supreme Priority</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px;">
+        <div style="padding:24px; background:rgba(10,15,30,0.5); border:1px solid rgba(201,168,76,0.12);">
+          <p style="font-family:'Amiri',serif; font-size:1.1rem; color:var(--gold); margin-bottom:10px; direction:rtl;">إِنَّ اللَّهَ لَا يَغْفِرُ أَن يُشْرَكَ بِهِ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَن يَشَاءُ</p>
+          <p style="font-size:0.87rem; color:var(--text-muted); line-height:1.8; font-style:italic;">"Indeed, Allah does not forgive association with Him, but He forgives what is less than that for whom He wills." — Quran 4:48</p>
+        </div>
+        <div style="padding:24px; background:rgba(10,15,30,0.5); border:1px solid rgba(201,168,76,0.12);">
+          <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.9;">Tauheed is the purpose behind the creation of jinn and mankind <em>(Quran 51:56)</em>, the message of every Prophet from Adam to Muhammad (ﷺ), and the first right that Allah has upon His servants. All other acts of worship derive their value from the sincerity of one's Tauheed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS OF FAITH -->
+<section id="beliefs">
+  <div class="reveal">
+    <p class="section-label">Iman</p>
+    <h2 class="section-title">The Six Pillars of Faith</h2>
+    <p class="section-intro">Islamic belief (Iman) encompasses six foundational articles that every Muslim must believe in the heart, affirm with the tongue, and act upon with the limbs.</p>
+  </div>
+
+  <div class="beliefs-list">
+    <div class="belief-item reveal">
+      <span class="belief-icon">☝️</span>
+      <div>
+        <div class="belief-title">Belief in Allah</div>
+        <p class="belief-text">Firm conviction in the existence and oneness of Allah — His names, attributes, and Lordship over all creation. He has no partners, sons, or equals.</p>
+      </div>
+    </div>
+    <div class="belief-item reveal">
+      <span class="belief-icon">👼</span>
+      <div>
+        <div class="belief-title">Belief in the Angels</div>
+        <p class="belief-text">Angels are noble creatures made of light who obey Allah perfectly. Among them are Jibreel (who brought revelation), Mikael, Israfeel, and Izraeel.</p>
+      </div>
+    </div>
+    <div class="belief-item reveal">
+      <span class="belief-icon">📚</span>
+      <div>
+        <div class="belief-title">Belief in the Divine Books</div>
+        <p class="belief-text">Allah revealed scriptures to His Prophets. The Quran, revealed to Muhammad (ﷺ), is the final and perfectly preserved word of Allah, abrogating all previous scriptures.</p>
+      </div>
+    </div>
+    <div class="belief-item reveal">
+      <span class="belief-icon">🕊️</span>
+      <div>
+        <div class="belief-title">Belief in the Prophets & Messengers</div>
+        <p class="belief-text">Allah sent over 124,000 Prophets to guide humanity. Muhammad (ﷺ) is the seal and final Messenger. Prophets include Adam, Ibrahim, Musa, Isa, and Muhammad (peace be upon them all).</p>
+      </div>
+    </div>
+    <div class="belief-item reveal">
+      <span class="belief-icon">⚖️</span>
+      <div>
+        <div class="belief-title">Belief in the Day of Judgement</div>
+        <p class="belief-text">Every soul will be resurrected and held fully accountable for its deeds. Allah will judge with perfect justice. The righteous enter Jannah; the disbelievers face Jahannam.</p>
+      </div>
+    </div>
+    <div class="belief-item reveal">
+      <span class="belief-icon">🌿</span>
+      <div>
+        <div class="belief-title">Belief in Divine Decree (Qadar)</div>
+        <p class="belief-text">Everything — good and evil — occurs by the knowledge and will of Allah. He decreed all things 50,000 years before creation. This belief brings tranquility: nothing happens outside His wisdom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QURAN & SUNNAH -->
+<section id="quran">
+  <div class="reveal">
+    <p class="section-label">Sources of Knowledge</p>
+    <h2 class="section-title">The Quran & Sunnah</h2>
+    <p class="section-intro">The two primary sources of Islamic knowledge and law — both divinely inspired and inseparable.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;" class="reveal">
+    <div class="pillar-card">
+      <span class="pillar-arabic" style="font-size:1.6rem;">الْقُرْآن الْكَرِيم</span>
+      <div class="pillar-name" style="font-size:1.1rem; margin-bottom:16px;">The Holy Quran</div>
+      <p class="pillar-desc" style="line-height:1.95;">The literal word of Allah, revealed in Arabic to the Prophet Muhammad (ﷺ) over 23 years through the Angel Jibreel. It contains 114 Surahs and over 6,000 verses covering theology, law, history, ethics, and guidance for all of humanity until the Day of Judgement. Memorized by millions across the globe, it remains unchanged since its revelation.</p>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-arabic" style="font-size:1.6rem;">السُّنَّة النَّبَوِيَّة</span>
+      <div class="pillar-name" style="font-size:1.1rem; margin-bottom:16px;">The Prophetic Sunnah</div>
+      <p class="pillar-desc" style="line-height:1.95;">The sayings (hadith), actions, and tacit approvals of Prophet Muhammad (ﷺ), preserved meticulously through chains of narrators. The Sunnah explains, expands, and contextualizes the Quran. Key hadith collections include Sahih al-Bukhari, Sahih Muslim, and the four Sunan. Allah commands obedience to the Prophet as obedience to Himself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RECITATION SECTION -->
+<section id="recitation" style="max-width: 1100px; margin: 0 auto; padding: 90px 24px;">
+  <div class="reveal">
+    <p class="section-label">Read & Reflect</p>
+    <h2 class="section-title">Surahs with Translation</h2>
+    <p class="section-intro">Read and reflect upon the Surahs mentioned on this page — each displayed in Arabic with full English translation. Read and reflect upon each verse and its meaning.</p>
+  </div>
+
+  <style>
+    .surah-card { padding: 32px 28px 28px; }
+    .verse-box {
+      background: rgba(10,15,30,0.5);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      direction: rtl;
+      font-family: 'Amiri', serif;
+      color: var(--gold-light);
+      line-height: 2.3;
+    }
+    .trans-box {
+      font-style: italic;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 4px;
+    }
+  </style>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-top: 10px;">
+
+    <!-- Surah Al-Fatiha -->
+    <div class="pillar-card surah-card reveal">
+      <span class="pillar-arabic" style="font-size:1.5rem; display:block; margin-bottom:6px;">سُورَةُ الْفَاتِحَة</span>
+      <div class="pillar-name" style="font-size:1rem; margin-bottom:6px;">Surah Al-Fatiha · Chapter 1</div>
+      <p class="pillar-desc" style="margin-bottom:16px;">The Opening — recited in every unit of prayer. It encapsulates Tauheed, worship, and the plea for guidance on the straight path.</p>
+      <div class="verse-box" style="font-size:1rem;">
+        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾
+      </div>
+      <div class="trans-box">
+        "In the name of Allah, the Most Gracious, the Most Merciful. All praise is due to Allah, Lord of all the worlds. The Most Gracious, the Most Merciful. Master of the Day of Judgement. You alone we worship, and You alone we ask for help. Guide us to the straight path — the path of those You have blessed, not those who earned anger, nor those who went astray."
+      </div></div>
+      </div>
+    </div>
+
+    <!-- Surah Al-Ikhlas -->
+    <div class="pillar-card surah-card reveal">
+      <span class="pillar-arabic" style="font-size:1.5rem; display:block; margin-bottom:6px;">سُورَةُ الْإِخْلَاص</span>
+      <div class="pillar-name" style="font-size:1rem; margin-bottom:6px;">Surah Al-Ikhlas · Chapter 112</div>
+      <p class="pillar-desc" style="margin-bottom:16px;">The Surah of Pure Monotheism — equivalent in reward to one-third of the Quran. The clearest declaration of Tauheed in all of scripture.</p>
+      <div class="verse-box" style="font-size:1.1rem; text-align:center;">
+        قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾
+      </div>
+      <div class="trans-box">
+        "Say: He is Allah, the Absolute One. Allah, the Eternal Refuge. He neither begets nor is born. And there is none comparable to Him whatsoever."
+      </div></div>
+      </div>
+    </div>
+
+    <!-- Ayatul Kursi -->
+    <div class="pillar-card surah-card reveal">
+      <span class="pillar-arabic" style="font-size:1.5rem; display:block; margin-bottom:6px;">آيَةُ الْكُرْسِيّ</span>
+      <div class="pillar-name" style="font-size:1rem; margin-bottom:6px;">Ayatul Kursi · Al-Baqarah 2:255</div>
+      <p class="pillar-desc" style="margin-bottom:16px;">The greatest verse in the Quran — the Verse of the Throne. A magnificent declaration of Allah's eternal sovereignty over all creation.</p>
+      <div class="verse-box" style="font-size:0.97rem;">
+        اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَهُوَ الْعَلِيُّ الْعَظِيمُ
+      </div>
+      <div class="trans-box">
+        "Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs all that is in the heavens and earth... His Kursi extends over the heavens and the earth. He is the Most High, the Most Great."
+      </div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quranic reminder -->
+  <div class="reveal" style="margin-top: 40px; text-align: center; padding: 24px; border: 1px solid rgba(201,168,76,0.15); background: rgba(20,32,64,0.3);">
+    <p style="font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 8px;">وَإِذَا قُرِئَ الْقُرْآنُ فَاسْتَمِعُوا لَهُ وَأَنصِتُوا</p>
+    <p style="font-size: 0.9rem; font-style: italic; color: var(--text-muted);">"When the Quran is recited, listen to it attentively and remain silent." — Surah Al-A'raf 7:204</p>
+  </div>
+</section>
+
+<!-- CLOSING AYAH -->
+<div class="ayah-banner">
+  <p class="ayah-arabic">وَإِلَٰهُكُمْ إِلَٰهٌ وَاحِدٌ ۖ لَّا إِلَٰهَ إِلَّا هُوَ الرَّحْمَٰنُ الرَّحِيمُ</p>
+  <p class="ayah-translation">"And your God is one God. There is no deity worthy of worship except Him, the Most Gracious, the Most Merciful."</p>
+  <span class="ayah-ref">Surah Al-Baqarah · 2:163</span>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Al-Wahdaniyyah</div>
+  <p class="footer-arabic">وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ</p>
+  <p class="footer-text" style="font-style:italic; margin-bottom:14px; color:var(--gold-light);">"And I did not create the jinn and mankind except to worship Me." — Quran 51:56</p>
+  <p class="footer-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ · سُبْحَانَ اللَّهِ الْعَظِيمِ</p>
+  <p style="margin-top:24px; font-size:0.78rem; color:rgba(168,152,112,0.5); letter-spacing:1px;">AL-WAHDANIYYAH · الوحدانية · The Divine Uniqueness · For the Benefit of All Muslims</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Stagger children in grids
+  document.querySelectorAll('.pillars-grid, .beliefs-list, .tauheed-grid').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => {
+      child.style.transitionDelay = (i * 0.1) + 's';
+    });
+  });
+</script>
+</body>
+</html>
